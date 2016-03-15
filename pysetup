@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+
+if ! [[ `python2.7 --version 2>&1` =~ ^Python[[:space:]]2\.7.* ]]; then
+    echo "error: Python 2.7 not found."
+    exit 1
+fi
+SCR_DIR=$(dirname $(readlink -f $0))
+PYENV=$(readlink -f "$SCR_DIR/../py-venv-phresko")
+if [ -z "$PYTHON" ]; then
+    PYTHON=$(which python2.7)
+fi
+if ! [[ $PYTHON =~ .*py-venv-phresko.* ]]; then
+    VERSION=1.11.6
+    URL_BASE=https://pypi.python.org/packages/source/v/virtualenv
+    curl -O $URL_BASE/virtualenv-$VERSION.tar.gz
+    tar -xzf virtualenv-$VERSION.tar.gz
+    $PYTHON virtualenv-$VERSION/virtualenv.py -p $PYTHON $PYENV
+    rm -rf virtualenv-$VERSION
+    $PYENV/bin/pip install virtualenv-$VERSION.tar.gz
+    rm virtualenv-$VERSION.tar.gz
+fi
+source $PYENV/bin/activate
+pip install -r python_requirements.txt --src=../
+pip install -r python_requirements_dev.txt --src=../

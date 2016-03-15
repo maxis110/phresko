@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+
+SCR_DIR=$(dirname $(readlink -f $0))
+PYENV=$(readlink -f "$SCR_DIR/../py-venv-phresko")
+
+if [[ ${@} == "" ]]; then
+    bash --init-file $PYENV/bin/activate
+    exit
+fi
+
+. ${PYENV}/bin/activate
+if [[ -f $1 ]]; then
+    exec "./$@"
+else
+    exec "$@"
+fi
+
