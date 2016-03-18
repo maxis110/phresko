@@ -128,8 +128,8 @@ STATIC_URL = '/static/'
 
 AUTH_USER_MODEL = 'restapi.User'
 
-#REST_FRAMEWORK = {
-#   'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
+REST_FRAMEWORK = {
+   'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticated',),
 #   'DEFAULT_AUTHENTICATION_CLASSES': (
 #        'rest_framework.authentication.BasicAuthentication',
 #        'rest_framework.authentication.SessionAuthentication',
@@ -137,4 +137,4 @@ AUTH_USER_MODEL = 'restapi.User'
 
 
 
-#}
+}

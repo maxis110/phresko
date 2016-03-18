@@ -1,6 +1,7 @@
 from django.contrib.auth.hashers import check_password, make_password
 from django.contrib.auth.models import UserManager as DjangoUserManager
 
+
 from django.db import models
 
 
@@ -24,26 +25,37 @@ class User(models.Model):
     password = models.CharField(max_length=128)
     last_login = models.DateTimeField(null=True)
 
+    def __unicode__(self):
+        return self.user_name
+
     objects = UserManager()
     objects_raw = UserDefaultManager()
 
     USERNAME_FIELD = 'user_name'
     REQUIRED_FIELDS = ['email']
 
-    def set_password(self, raw_password):
-        self.password = make_password(raw_password)
-    def check_password(self, raw_password):
-        return True
-        # def setter(raw_password):
-        #     self.set_password(raw_password)
-        #     self.save(update_fields=['password'])
-        # return check_password(raw_password, self.password, setter)
-
     class Meta:
         app_label = 'restapi'
         db_table = 'user'
         ordering = ('user_id',)
         unique_together = ('email', 'user_name')
+
+    def is_authenticated(self):
+        return self.user_name
+
+    def set_password(self, raw_password):
+        self.password = make_password(raw_password)
+        self.save()
+
+    def check_password(self, raw_password):
+      return True
+        # def setter(raw_password):
+        #     self.set_password(raw_password)
+        #     self.save(update_fields=['password'])
+        # return check_password(raw_password, self.password, setter)
+
+
+
 
 
 class Category(models.Model):
