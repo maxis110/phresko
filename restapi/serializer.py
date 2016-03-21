@@ -5,7 +5,7 @@ from models import User, Category, Task
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('user_id', 'user_name', 'email')
+        fields = ('user_id', 'user_name', 'email', 'password')
 
 
 class CategorySerializer(serializers.ModelSerializer):
