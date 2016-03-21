@@ -1,4 +1,4 @@
-from django.contrib.auth.hashers import check_password, make_password
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import UserManager as DjangoUserManager
 from django.db import models
 
@@ -50,10 +50,6 @@ class User(models.Model):
             return True
         else:
             return False
-            # def setter(raw_password):
-            #     self.set_password(raw_password)
-            #     self.save(update_fields=['password'])
-            # return check_password(raw_password, self.password, setter)
 
 
 class Category(models.Model):
