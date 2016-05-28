@@ -1,20 +1,21 @@
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import UserManager as DjangoUserManager
 from django.db import models
+from restapi.base import BaseModel
+from restapi.managers import BaseManager
 
-
-class UserManager(DjangoUserManager):
+class UserManager(BaseManager, DjangoUserManager):
     def own(self, queryset=None):
         queryset = super(UserManager, self).own(queryset)
         return queryset
 
 
-class UserDefaultManager(models.Manager):
+class UserDefaultManager(BaseManager, models.Manager):
     def get_by_natural_key(self, user_name):
         return self.get(**{self.model.USERNAME_FIELD: user_name})
 
 
-class User(models.Model):
+class User(BaseModel, models.Model):
     user_id = models.AutoField(primary_key=True)
     user_name = models.CharField(max_length=255, blank=False, unique=True)
     email = models.CharField(max_length=255, blank=False)
@@ -46,6 +47,8 @@ class User(models.Model):
         self.save()
 
     def check_password(self, raw_password):
+        print self.password
+        print raw_password
         if self.password == raw_password:
             return True
         else:
